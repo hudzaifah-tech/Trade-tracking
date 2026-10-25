@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading Dashboard Pro</title>
-    <!-- Font Google: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Library Grafik -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
-        /* ==== CSS DARK MODE PREMIUM ==== */
         :root {
             --bg: #0b0e14;
             --card-bg: rgba(22, 27, 34, 0.8);
@@ -31,15 +28,11 @@
             padding: 20px;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; }
 
         h1, h2 { text-align: center; font-weight: 600; }
         h1 { font-size: 28px; margin-bottom: 20px; background: -webkit-linear-gradient(#60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Ringkasan Kartu */
         .summary-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -60,7 +53,6 @@
         .card h3 { font-size: 12px; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .card p { font-size: 20px; font-weight: 700; }
 
-        /* Grafik */
         .chart-container {
             background: var(--card-bg);
             padding: 15px;
@@ -71,7 +63,6 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Form Section */
         .form-section {
             background: var(--card-bg);
             padding: 20px;
@@ -115,7 +106,6 @@
 
         #auto-preview { text-align: center; margin-top: 15px; font-weight: 600; font-size: 14px; color: #8b949e; }
 
-        /* Tabel */
         .table-responsive { overflow-x: auto; border-radius: 12px; }
 
         table {
@@ -168,7 +158,10 @@
         <div class="form-section">
             <h2>Catat Trade Baru</h2>
             <div id="form-container">
-                <input type="text" id="asset" placeholder="Aset (BTC, ETH)">
+                <!-- FITUR BARU: list="ticker-list" untuk autocomplete -->
+                <input type="text" id="asset" list="ticker-list" placeholder="🔍 Cari Aset (AAPL, BBCA, BTC)...">
+                <datalist id="ticker-list"></datalist>
+                
                 <select id="type">
                     <option value="Buy">Buy (Long)</option>
                     <option value="Sell">Sell (Short)</option>
@@ -199,9 +192,43 @@
     </div>
 
     <script>
+        // ==== DATABASE TICKER (Saham US, Saham IDX, & Crypto) ====
+        const allTickers = [
+            // Saham US Populer
+            "AAPL - Apple Inc.", "MSFT - Microsoft", "GOOGL - Alphabet", "AMZN - Amazon", "NVDA - Nvidia", 
+            "META - Meta Platforms", "TSLA - Tesla", "BRK.B - Berkshire Hathaway", "JPM - JPMorgan Chase", "V - Visa",
+            "MA - Mastercard", "UNH - UnitedHealth", "JNJ - Johnson & Johnson", "WMT - Walmart", "PG - Procter & Gamble",
+            "HD - Home Depot", "BAC - Bank of America", "XOM - Exxon Mobil", "PFE - Pfizer", "COST - Costco",
+            "DIS - Disney", "NFLX - Netflix", "AMD - AMD", "INTC - Intel", "CRM - Salesforce", "KO - Coca-Cola", "PEP - PepsiCo",
+            
+            // Saham Indonesia (IDX)
+            "BBCA - Bank Central Asia", "BBRI - Bank Rakyat Indonesia", "BMRI - Bank Mandiri", "BBNI - Bank Negara Indonesia",
+            "TLKM - Telkom Indonesia", "ASII - Astra International", "UNVR - Unilever Indonesia", "ICBP - Indofood CBP",
+            "INDF - Indofood Sukses Makmur", "GOTO - GoTo Gojek Tokopedia", "BUKA - Bukalapak", "ARTO - Bank Jago",
+            "EMTK - Elang Mahkota Teknologi", "ADRO - Adaro Energy", "PTBA - Bukit Asam", "ITMG - Indo Tambangraya",
+            "ANTM - Aneka Tambang", "MDKA - Merdeka Copper Gold", "BRPT - Barito Pacific", "TPIA - Chandra Asri",
+            "CPIN - Charoen Pokphand", "JPFA - Japfa Comfeed", "SMGR - Semen Indonesia", "INTP - Indocement",
+            "BSDE - Bumi Serpong Damai", "CTRA - Ciputra Development", "PWON - Pakuwon Jati",
+            
+            // Crypto Populer
+            "BTC - Bitcoin", "ETH - Ethereum", "BNB - Binance Coin", "SOL - Solana", "XRP - Ripple",
+            "ADA - Cardano", "DOGE - Dogecoin", "AVAX - Avalanche", "DOT - Polkadot", "LINK - Chainlink",
+            "MATIC - Polygon", "SHIB - Shiba Inu", "LTC - Litecoin", "UNI - Uniswap", "ATOM - Cosmos"
+        ];
+
         // ==== JAVASCRIPT OTOMASI & GRAFIK ====
         let trades = JSON.parse(localStorage.getItem('trades')) || [];
         let chartInstance = null;
+
+        // Fungsi untuk memasukkan data ticker ke dropdown pencarian
+        function populateTickers() {
+            const datalist = document.getElementById('ticker-list');
+            allTickers.forEach(ticker => {
+                const option = document.createElement('option');
+                option.value = ticker;
+                datalist.appendChild(option);
+            });
+        }
 
         function updateAutoPreview() {
             const type = document.getElementById('type').value;
@@ -265,9 +292,12 @@
                 const pnl = trade.type === 'Buy' ? (trade.exit - trade.entry) : (trade.entry - trade.exit);
                 const pnlClass = pnl >= 0 ? 'profit' : 'loss';
                 
+                // Ambil hanya simbol (sebelum tanda "-") agar tabel tidak kepanjangan
+                const assetSymbol = trade.asset.split('-')[0].trim();
+
                 const row = `
                     <tr>
-                        <td><strong>${trade.asset.toUpperCase()}</strong></td>
+                        <td><strong>${assetSymbol.toUpperCase()}</strong></td>
                         <td>${trade.type}</td>
                         <td>$${trade.entry}</td>
                         <td>$${trade.exit}</td>
@@ -341,6 +371,8 @@
             });
         }
 
+        // Jalankan semua fungsi saat halaman dimuat
+        populateTickers();
         renderTrades();
         updateSummary();
         updateChart();
