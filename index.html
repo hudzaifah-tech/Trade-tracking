@@ -6,7 +6,6 @@
     <title>IDX Portfolio Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <style>
         :root {
             --bg: #0b0e14; --card-bg: rgba(22, 27, 34, 0.95); --text: #e6edf3;
@@ -44,7 +43,7 @@
         .profit { color: var(--profit); } .loss { color: var(--loss); }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border); z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #8b949e; cursor: pointer; background: none; width: auto; padding: 0; margin: 0; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #8b949e; cursor: pointer; background: none; width: auto; padding: 0; margin: 0; border: none; }
         .nav-item.active { color: var(--accent); }
         .nav-item svg { width: 20px; height: 20px; margin-bottom: 3px; fill: currentColor; }
         .chart-container { height: 200px; width: 100%; margin-bottom: 15px; }
@@ -186,50 +185,57 @@
         <button class="nav-item" onclick="switchPage('harmonic', this)"><svg viewBox="0 0 24 24"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 10h10v2H7zM7 14h6v2H7z"/></svg>Harmonic</button>
         <button class="nav-item" onclick="switchPage('profile', this)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Profile</button>
     </div>
-
     <script>
-        // Database sementara (nanti kita ganti dengan 900+ saham di fase akhir)
-        const allTickers = ["BBCA","BBRI","BMRI","BBNI","TLKM","ASII","GOTO","BUKA","ADRO","PTBA","ITMG","ANTM","MDKA","INCO","CPIN","ICBP","INDF","UNVR","MYOR","SMGR","INTP","CTRA","BSDE","PWON","JSMR","EXCL","ISAT","TOWR","TBIG","AMRT","MAPI","ACES","BRPT","TPIA","KLBF","SIDO","KAEF","BRIS","ARTO","BBTN","MEGA","PNBN","JPFA","MAIN","DSNG","LSIP","AALI","SIMP","TBLA"];
+    // ==== DATABASE SAHAM (Disatukan) ====
+    const allTickers = ["AALI","ABBA","ABDA","ABMM","ACES","ACST","ADHI","ADMF","AGII","AGRO","AGRS","AIMS","AISA","AMAG","AMAR","AMFG","AMRT","ANTM","APEX","APIC","APII","APLI","ARTA","ARTI","ARTO","ASBI","ASDM","ASGR","ASII","ASJT","ASMI","ASPR","ASRM","ASSA","ATIC","AUTO","BABP","BACA","BADF","BAEK","BAGN","BAJA","BALI","BAPA","BAPI","BATA","BAYU","BBCA","BBHI","BBKP","BBLD","BBMD","BBNI","BBRI","BBRM","BBSS","BBTN","BBYB","BCAP","BCIC","BDMN","BEBS","BEEF","BEKS","BELI","BESS","BEST","BFIN","BGTG","BHIT","BIKA","BIMA","BINA","BIPI","BIRD","BISI","BJBR","BJTM","BKDP","BKSL","BKSW","BLTA","BLTZ","BMAS","BMBL","BMRI","BMSR","BMTR","BNBR","BNBA","BNGA","BNII","BNLI","BOLT","BPFI","BPII","BPTR","BRAM","BRIS","BRMS","BRNA","BRPT","BSDE","BSIM","BSSR","BSWD","BTEK","BTEL","BTON","BTPN","BTPS","BUKA","BUKK","BULL","BUMI","BUVA","BVIC","BWPT","BYAN","CAMP","CANI","CARS","CASA","CASH","CASS","CCSI","CEKA","CENT","CFIN","CINT","CITA","CITY","CLPI","CMPP","CMNP","CMRY","CNTX","COCO","CPIN","CPRO","CRAB","CSAP","CSIS","CSMI","CSRA","CTBN","CTRA","CTRS","CTTH","DADA","DART","DEFI","DEPO","DEWA","DGIK","DGNS","DILD","DIVA","DKFT","DLTA","DMAS","DMMX","DMND","DNAR","DNET","DOID","DPNS","DPPI","DRMA","DSFI","DSNG","DSSA","DUTI","DVLA","EAST","ECII","EDGE","EKAD","ELSA","ELTY","EMDE","EMTK","EMSK","ENRG","EPMT","ERAA","ESSA","ESTA","ETWA","EXCL","FAST","FASW","FILM","FIRE","FISH","FITT","FLMC","FMII","FOLK","FOOD","FORU","FORZ","FPNI","FSMZ","GAMA","GDYR","GEMA","GEMS","GGRM","GIAA","GJTL","GLOB","GLVA","GMTD","GOLD","GOTO","GPRA","GPSO","GRHA","GRIA","GRIM","GRPH","GSMF","GTBO","GWSA","HADE","HAIS","HDFA","HDIT","HEAL","HELI","HEXA","HITS","HMSP","HOKI","HOME","HOTL","HRME","HRTA","HRUM","HYBE","IATA","IBFN","IBOS","IBST","ICBP","ICON","IDPR","IGAR","IFSI","IIKP","INAI","INAF","INCI","INCO","INDF","INDR","INDS","INDX","INDY","INKP","INPC","INPP","INRU","INTA","INTD","INTP","IPCC","IPCM","IPOL","IPPE","IRRA","ISAT","ISSP","ITIC","ITMA","ITMG","ITSD","JARR","JAST","JATI","JAYA","JECC","JIHD","JKON","JKSW","JMPP","JPFA","JRPT","JSMR","JSPT","JTPE","KAEF","KARW","KBLI","KBLM","KBLV","KBRI","KDSI","KDTN","KEEN","KIAS","KICI","KIJA","KINO","KIOS","KKGI","KLBF","KMDS","KMTR","KOBX","KOIN","KONI","KOPI","KPIG","KRAS","KRAH","KREN","KRYA","KSDA","KTTI","KUAS","LABA","LAND","LAPD","LCGP","LEAD","LIFE","LINK","LION","LMAS","LMPI","LMSH","LPCK","LPGI","LPIN","LPKR","LPLI","LPPF","LPPS","LSDI","LTLS","LUCK","MAIN","MAMI","MAPA","MAPI","MASA","MAYA","MBAP","MBSS","MBTO","MCAS","MCOL","MDKA","MDKI","MDLN","MDRN","MEDC","MEGA","MERK","META","MFMI","MGNA","MICE","MIDI","MIKA","MINA","MIRA","MITI","MKPI","MKTR","MLBI","MLIA","MLPL","MLPT","MMPC","MNCN","MOLI","MORA","MPMX","MPOW","MPPA","MRAT","MREI","MSKY","MTDL","MTFN","MTLA","MTLM","MTSM","MYOH","MYOR","MYTX","NAGA","NAYZ","NELY","NESP","NETV","NICK","NIKL","NIPS","NISP","NOBU","NPGF","NRCA","NTBK","NUSA","OASA","OILS","OKAS","OMRE","OPMS","PADI","PALM","PANI","PANR","PANS","PBID","PBRX","PBSA","PCAR","PDES","PGLI","PGAS","PICO","PIFA","PIHI","PJAA","PKPK","PLAS","PLIN","PMJS","PNBN","PNBS","PNIN","PNLF","PNSE","POLY","POLL","POSA","POWR","PPRE","PPRO","PRAS","PRDA","PRIM","PSAB","PSDN","PTPP","PTRO","PTSN","PTSP","PUDP","PURE","PURI","PWON","PYFA","RAJA","RALS","RANC","RATA","RBMS","RDTX","REAL","RELI","RICY","RIGS","RIMO","RMBA","RODA","ROTI","RUIS","SAME","SAMF","SAPX","SATU","SBAT","SBMA","SCMA","SCNP","SCPI","SDMU","SDPC","SGRO","SHID","SHIP","SIDO","SILO","SIMA","SIMP","SINI","SIPD","SKBM","SKLT","SKYB","SMAR","SMBR","SMCB","SMDM","SMDR","SMGR","SMMA","SMMT","SMRA","SMSM","SOCI","SONA","SPMA","SQMI","SRAJ","SRIL","SRTG","SSIA","SSTM","STTP","SULI","TAMU","TARA","TAXI","TAYS","TBIG","TBLA","TBNT","TBSM","TCID","TEBE","TECH","TELE","TFAS","TGKA","TIRA","TIRT","TKIM","TLKM","TMAS","TMPO","TNCA","TOPS","TOTL","TOTO","TOWR","TPIA","TRAM","TRIL","TRIS","TRST","TSPC","TURI","ULTJ","UNIC","UNTR","UNVR","UFOE","VICO","VINS","VIVA","WAPO","WEGE","WEHA","WICO","WIFI","WIIM","WIKA","WINS","WISM","WOOD","WSBP","WSKT","WTON","YELO","YPAS","YULE","ZBRA"];
 
-        let state = {
-            profile: JSON.parse(localStorage.getItem('profile')) || { name: 'Trader IDX', cash: 100000000 },
-            portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
-            history: JSON.parse(localStorage.getItem('history')) || [],
-            harmonic: JSON.parse(localStorage.getItem('harmonic')) || []
-        };
+    let state = {
+        profile: JSON.parse(localStorage.getItem('profile')) || { name: 'Trader IDX', cash: 100000000 },
+        portfolio: JSON.parse(localStorage.getItem('portfolio')) || [],
+        history: JSON.parse(localStorage.getItem('history')) || [],
+        harmonic: JSON.parse(localStorage.getItem('harmonic')) || []
+    };
 
-        let myChart = null;
-        const FEE_BUY = 0.0015; // 0.15%
-        const FEE_SELL = 0.0025; // 0.25%
+    let myChart = null;
+    const FEE_BUY = 0.0015;
+    const FEE_SELL = 0.0025;
 
-        document.addEventListener("DOMContentLoaded", () => {
-            populateTickers(); loadProfile(); renderAll(); refreshPrices(); 
-        });
+    document.addEventListener("DOMContentLoaded", () => {
+        populateTickers();
+        loadProfile();
+        renderAll();
+        refreshPrices(); 
+    });
 
-        function populateTickers() {
-            const datalist = document.getElementById('ticker-list');
-            allTickers.forEach(t => { datalist.innerHTML += `<option value="${t}">`; });
-        }
+    function populateTickers() {
+        const datalist = document.getElementById('ticker-list');
+        allTickers.forEach(t => { datalist.innerHTML += `<option value="${t}">`; });
+    }
 
-        function switchPage(pageId, btn) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            if(pageId === 'dashboard') renderChart();
-            if(pageId === 'trade') populateSellDropdown();
-        }
-
-        function formatRp(angka) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka); }
-        function loadProfile() { document.getElementById('profile-name').value = state.profile.name; document.getElementById('profile-avatar').src = `https://ui-avatars.com/api/?name=${state.profile.name}&background=3b82f6&color=fff&size=100`; }
+    window.switchPage = function(pageId, btn) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         
-        function saveProfile() {
-            state.profile.name = document.getElementById('profile-name').value;
-            localStorage.setItem('profile', JSON.stringify(state.profile)); loadProfile(); alert('Profil disimpan!');
-        }
+        if(pageId === 'dashboard') renderChart();
+        if(pageId === 'trade') populateSellDropdown();
+    }
 
-        // ==== LOGIKA TRANSAKSI (DENGAN FEE & JURNAL) ====
-        function processBuy() {
+    function formatRp(angka) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka); }
+    
+    function loadProfile() { 
+        document.getElementById('profile-name').value = state.profile.name; 
+        document.getElementById('profile-avatar').src = `https://ui-avatars.com/api/?name=${state.profile.name}&background=3b82f6&color=fff&size=100`; 
+    }
+    
+    window.saveProfile = function() {
+        state.profile.name = document.getElementById('profile-name').value;
+        localStorage.setItem('profile', JSON.stringify(state.profile)); 
+        loadProfile(); 
+        alert('Profil disimpan!');
+    }
+                window.processBuy = function() {
             const ticker = document.getElementById('buy-asset').value.toUpperCase().trim();
             const price = parseFloat(document.getElementById('buy-price').value);
             const lots = parseInt(document.getElementById('buy-lots').value);
@@ -244,12 +250,12 @@
 
             if(totalCost > state.profile.cash) return alert('Saldo Kas tidak cukup (termasuk fee)!');
 
-            state.profile.cash -= totalCost; // Potong kas + fee
+            state.profile.cash -= totalCost;
 
             let existing = state.portfolio.find(p => p.ticker === ticker);
             if(existing) {
                 const totalLots = existing.lots + lots;
-                const totalValue = (existing.lots * existing.avgPrice) + grossCost; // Avg tidak termasuk fee
+                const totalValue = (existing.lots * existing.avgPrice) + grossCost;
                 existing.avgPrice = totalValue / totalLots;
                 existing.lots = totalLots;
             } else {
@@ -262,7 +268,7 @@
             document.getElementById('buy-asset').value = ''; document.getElementById('buy-price').value = ''; document.getElementById('buy-lots').value = '';
         }
 
-        function processSell() {
+        window.processSell = function() {
             const ticker = document.getElementById('sell-asset').value;
             const price = parseFloat(document.getElementById('sell-price').value);
             const lots = parseInt(document.getElementById('sell-lots').value);
@@ -275,7 +281,7 @@
             const fee = grossRevenue * FEE_SELL;
             const netRevenue = grossRevenue - fee;
 
-            state.profile.cash += netRevenue; // Tambah kas bersih
+            state.profile.cash += netRevenue;
             existing.lots -= lots;
             if(existing.lots === 0) state.portfolio = state.portfolio.filter(p => p.ticker !== ticker);
 
@@ -291,7 +297,7 @@
             state.portfolio.forEach(p => { select.innerHTML += `<option value="${p.ticker}">${p.ticker} (${p.lots} Lot)</option>`; });
         }
 
-        function addHarmonic() {
+        window.addHarmonic = function() {
             const ticker = document.getElementById('harm-asset').value.toUpperCase();
             const pattern = document.getElementById('harm-pattern').value;
             const tf = document.getElementById('harm-tf').value;
@@ -348,7 +354,8 @@
                 tbody.innerHTML += `<tr><td><b>${h.ticker}</b></td><td>${h.pattern} (${h.tf})</td><td>${h.entry} / ${h.sl}</td><td>${h.tp1} / ${h.tp2}</td><td><button class="btn-sm btn-sell" onclick="deleteHarmonic(${i})">X</button></td></tr>`;
             });
         }
-        function deleteHarmonic(i) { state.harmonic.splice(i, 1); saveState(); }
+        
+        window.deleteHarmonic = function(i) { state.harmonic.splice(i, 1); saveState(); }
 
         function renderChart() {
             const ctx = document.getElementById('portfolioChart').getContext('2d');
@@ -363,7 +370,7 @@
             });
         }
 
-        async function refreshPrices() {
+        window.refreshPrices = async function() {
             if (state.portfolio.length === 0) return;
             document.getElementById('loading').style.display = 'block';
             for (let item of state.portfolio) {
@@ -381,8 +388,7 @@
             renderDashboard(); document.getElementById('loading').style.display = 'none';
         }
 
-        // ==== BACKUP & RESTORE DATA ====
-        function backupData() {
+        window.backupData = function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
             const downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
@@ -390,7 +396,7 @@
             document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove();
         }
 
-        function restoreData(event) {
+        window.restoreData = function(event) {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
