@@ -3,37 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade Tracker</title>
+    <title>Trading Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Memanggil Chart.js untuk Grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>📊 Trade Tracker</h1>
+    <div class="container">
+        <h1>📊 Trading Dashboard</h1>
+        
+        <!-- Kartu Ringkasan Data -->
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Total P&L</h3>
+                <p id="total-pnl" class="profit">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>Win Rate</h3>
+                <p id="win-rate">0%</p>
+            </div>
+            <div class="card">
+                <h3>Total Trade</h3>
+                <p id="total-trades">0</p>
+            </div>
+        </div>
 
-    <div id="form-container">
-        <input type="text" id="asset" placeholder="Aset (misal: BTC)">
-        <select id="type">
-            <option value="Buy">Buy</option>
-            <option value="Sell">Sell</option>
-        </select>
-        <input type="number" id="entry" placeholder="Harga Masuk">
-        <input type="number" id="exit" placeholder="Harga Keluar">
-        <button onclick="addTrade()">Tambah Trade</button>
+        <!-- Area Grafik -->
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <!-- Form Input -->
+        <div class="form-section">
+            <h2>Catat Trade Baru</h2>
+            <div id="form-container">
+                <input type="text" id="asset" placeholder="Aset (BTC, ETH, dll)">
+                <select id="type">
+                    <option value="Buy">Buy (Long)</option>
+                    <option value="Sell">Sell (Short)</option>
+                </select>
+                <input type="number" id="entry" placeholder="Harga Masuk">
+                <input type="number" id="exit" placeholder="Harga Keluar">
+                <button onclick="addTrade()">Tambah Trade</button>
+            </div>
+            <!-- Automasi preview P&L -->
+            <p id="auto-preview">P&L Otomatis: $0.00</p>
+        </div>
+
+        <!-- Tabel Riwayat -->
+        <h2>Riwayat Trade</h2>
+        <div class="table-responsive">
+            <table id="trade-table">
+                <thead>
+                    <tr>
+                        <th>Aset</th>
+                        <th>Tipe</th>
+                        <th>Entry</th>
+                        <th>Exit</th>
+                        <th>P&L</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
-
-    <h2>Riwayat Trade</h2>
-    <table id="trade-table">
-        <thead>
-            <tr>
-                <th>Aset</th>
-                <th>Tipe</th>
-                <th>Entry</th>
-                <th>Exit</th>
-                <th>P&L</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
     <script src="script.js"></script>
 </body>
 </html>
